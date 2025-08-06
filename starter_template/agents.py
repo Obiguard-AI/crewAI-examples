@@ -1,17 +1,14 @@
-from crewai import Agent
+from crewai import Agent, LLM
 from textwrap import dedent
-from langchain.llms import OpenAI, Ollama
-from langchain_openai import ChatOpenAI
+from obiguard import Obiguard, OBIGUARD_GATEWAY_URL
 
 
 # This is an example of how to define custom agents.
 # You can define as many agents as you want.
 # You can also define custom tasks in tasks.py
 class CustomAgents:
-    def __init__(self):
-        self.OpenAIGPT35 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
-        self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
-        self.Ollama = Ollama(model="openhermes")
+    def __init__(self, obiguard_client: Obiguard):
+        self.obiguard_client = obiguard_client
 
     def agent_1_name(self):
         return Agent(
@@ -21,7 +18,12 @@ class CustomAgents:
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT35,
+            llm=LLM(
+                model="openai/Qwen/Qwen2.5-32B-Instruct",
+                base_url=OBIGUARD_GATEWAY_URL,
+                api_key='N/A',
+                extra_headers=self.obiguard_client.copy_headers()
+            )
         )
 
     def agent_2_name(self):
@@ -32,5 +34,10 @@ class CustomAgents:
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT35,
+            llm=LLM(
+                model="openai/Qwen/Qwen2.5-32B-Instruct",
+                base_url=OBIGUARD_GATEWAY_URL,
+                api_key='N/A',
+                extra_headers=self.obiguard_client.copy_headers()
+            )
         )
