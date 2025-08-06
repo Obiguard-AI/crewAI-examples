@@ -1,6 +1,7 @@
 from typing import Optional
 
 from crewai.flow.flow import Flow, listen, router, start
+from obiguard import Obiguard
 from pydantic import BaseModel
 
 from self_evaluation_loop_flow.crews.shakespeare_crew.shakespeare_crew import (
@@ -10,6 +11,7 @@ from self_evaluation_loop_flow.crews.x_post_review_crew.x_post_review_crew impor
     XPostReviewCrew,
 )
 
+obiguard_client = Obiguard(provider='openai')
 
 class ShakespeareXPostFlowState(BaseModel):
     x_post: str = ""
@@ -25,7 +27,7 @@ class ShakespeareXPostFlow(Flow[ShakespeareXPostFlowState]):
         print("Generating Shakespearean X post")
         topic = "Flying cars"
         result = (
-            ShakespeareanXPostCrew()
+            ShakespeareanXPostCrew(obiguard_client)
             .crew()
             .kickoff(inputs={"topic": topic, "feedback": self.state.feedback})
         )
@@ -38,7 +40,7 @@ class ShakespeareXPostFlow(Flow[ShakespeareXPostFlowState]):
         if self.state.retry_count > 3:
             return "max_retry_exceeded"
 
-        result = XPostReviewCrew().crew().kickoff(inputs={"x_post": self.state.x_post})
+        result = XPostReviewCrew(obiguard_client).crew().kickoff(inputs={"x_post": self.state.x_post})
         self.state.valid = result["valid"]
         self.state.feedback = result["feedback"]
 
