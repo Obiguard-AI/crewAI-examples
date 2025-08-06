@@ -1,6 +1,7 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.knowledge.source.pdf_knowledge_source import PDFKnowledgeSource
+from obiguard import Obiguard, OBIGUARD_GATEWAY_URL
 
 # Knowledge sources
 pdf_source = PDFKnowledgeSource(
@@ -14,11 +15,20 @@ class MetaQuestKnowledge():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
+	def __init__(self, obiguard_client: Obiguard):
+		self.obiguard_client = obiguard_client
+
 	@agent
 	def meta_quest_expert(self) -> Agent:
 		return Agent(
 			config=self.agents_config['meta_quest_expert'],
-			verbose=True
+			verbose=True,
+            llm=LLM(
+                model="openai/Qwen/Qwen2.5-32B-Instruct",
+                base_url=OBIGUARD_GATEWAY_URL,
+                api_key='N/A',
+                extra_headers=self.obiguard_client.copy_headers()
+            )
 		)
 
 	@task

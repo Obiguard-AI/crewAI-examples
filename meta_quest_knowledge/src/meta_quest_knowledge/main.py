@@ -3,6 +3,7 @@ import sys
 import warnings
 
 from meta_quest_knowledge.crew import MetaQuestKnowledge
+from obiguard import Obiguard
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -11,6 +12,8 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # Replace with inputs you want to test with, it will automatically
 # interpolate any tasks and agents information
 
+obiguard_client = Obiguard(provider='openai')
+
 def run():
     """
     Run the crew.
@@ -18,7 +21,7 @@ def run():
     inputs = {
         'question': 'How often should I take breaks?',
     }
-    MetaQuestKnowledge().crew().kickoff(inputs=inputs)
+    MetaQuestKnowledge(obiguard_client).crew().kickoff(inputs=inputs)
 
 
 def train():
@@ -29,7 +32,7 @@ def train():
         'question': 'How often should I take breaks?',
     }
     try:
-        MetaQuestKnowledge().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        MetaQuestKnowledge(obiguard_client).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
@@ -39,7 +42,7 @@ def replay():
     Replay the crew execution from a specific task.
     """
     try:
-        MetaQuestKnowledge().crew().replay(task_id=sys.argv[1])
+        MetaQuestKnowledge(obiguard_client).crew().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
@@ -52,7 +55,7 @@ def test():
         'question': 'How often should I take breaks?',
     }
     try:
-        MetaQuestKnowledge().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
+        MetaQuestKnowledge(obiguard_client).crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")

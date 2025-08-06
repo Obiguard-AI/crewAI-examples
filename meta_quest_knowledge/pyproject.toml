@@ -1,11 +1,12 @@
 [project]
-name = "Meta Quest Knowledge"
+name = "Meta-Quest-Knowledge"
 version = "0.1.0"
 description = "Knowledge Example using crewAI"
 authors = [{ name = "Mike Plachta", email = "mike@crewai.com" }]
 requires-python = ">=3.10,<=3.13"
 dependencies = [
     "crewai[tools]==0.130.0",
+    "obiguard>=1.0.15",
 ]
 
 [project.scripts]
