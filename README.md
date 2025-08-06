@@ -19,8 +19,6 @@ Adjust your `model` values according to your needs and AI provider's settings.
 
 - [Game Generator](https://github.com/obiguard-AI/crewAI-examples/tree/main/game-builder-crew)
 
-## Old Examples, need to be updated
-
 ### Basic Examples
 
 - [Using Azure OpenAI API](https://github.com/obiguard-AI/crewAI-examples/tree/main/azure_model)
