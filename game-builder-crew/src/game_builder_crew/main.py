@@ -1,6 +1,9 @@
 import sys
 import yaml
 from game_builder_crew.crew import GameBuilderCrew
+from obiguard import Obiguard
+
+obiguard_client = Obiguard(provider='openai')
 
 
 def run():
@@ -12,16 +15,16 @@ def run():
         examples = yaml.safe_load(file)
 
     inputs = {
-        'game' :  examples['example3_snake']
+        'game': examples['example3_snake']
     }
-    game= GameBuilderCrew().crew().kickoff(inputs=inputs)
+    game = GameBuilderCrew(obiguard_client).crew().kickoff(inputs=inputs)
 
     print("\n\n########################")
     print("## Here is the result")
     print("########################\n")
     print("final code for the game:")
     print(game)
-    
+
 
 def train():
     """
@@ -32,10 +35,11 @@ def train():
         examples = yaml.safe_load(file)
 
     inputs = {
-        'game' : examples['example1_pacman']
+        'game': examples['example1_pacman']
     }
     try:
-        GameBuilderCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        GameBuilderCrew(obiguard_client).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2],
+                                                      inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
