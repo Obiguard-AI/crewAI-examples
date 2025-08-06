@@ -4,6 +4,7 @@ import os
 from typing import List
 
 from crewai.flow.flow import Flow, listen, start
+from obiguard import Obiguard
 from pydantic import BaseModel
 
 from meeting_assistant_flow.crews.meeting_assistant_crew.meeting_assistant_crew import (
@@ -13,6 +14,8 @@ from meeting_assistant_flow.types import MeetingTask
 from meeting_assistant_flow.utils.slack_helper import send_message_to_channel
 from meeting_assistant_flow.utils.trello_helper import save_tasks_to_trello
 
+
+obiguard_client = Obiguard(provider='openai')
 
 class MeetingState(BaseModel):
     transcript: str = "Meeting transcript goes here"
@@ -34,7 +37,7 @@ class MeetingFlow(Flow[MeetingState]):
     def generate_tasks_from_meeting_transcript(self):
         print("Kickoff the Meeting Assistant Crew")
         output = (
-            MeetingAssistantCrew()
+            MeetingAssistantCrew(obiguard_client)
             .crew()
             .kickoff(inputs={"transcript": self.state.transcript})
         )

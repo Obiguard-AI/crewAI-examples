@@ -10,6 +10,7 @@ dependencies = [
     "crewai[tools]==0.130.0",
     "asyncio>=3.4.3",
     "slack-sdk>=3.33.1",
+    "obiguard>=1.0.16",
 ]
 
 [project.scripts]
