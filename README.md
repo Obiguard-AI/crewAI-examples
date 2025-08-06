@@ -3,15 +3,17 @@
 ## Introduction
 
 crewAI is designed to facilitate the collaboration of role-playing AI agents.
-This is a collection of examples of different ways to use the crewAI framework with Obiguard to automate the processes.
+This is a collection of examples of different ways to use the crewAI framework with [Obiguard](https://obiguard.ai) to automate the processes.
 
 **Note**: All examples have been standardized to use **CrewAI version 0.130.0** for consistency and compatibility. Some
 example may require CrewAI version 0.152.0 or higher, so please check the requirements in each example.
 
 The examples assumes that the following environment variables are set:
 
-- `OPENAI_API_KEY`: Your OpenAI API key.
+- `OBIGUARD_API_KEY`: Your Obiguard API or virtual key. Onboard your account at [Obiguard](https://obiguard.ai).
 - `SERPER_API_KEY`: Your Serper API key (if applicable).
+
+Adjust your `model` values according to your needs and AI provider's settings.
 
 ## Examples
 
