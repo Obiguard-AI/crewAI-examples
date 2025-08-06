@@ -1932,7 +1932,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "crewai", extras = ["tools"], specifier = "==0.130.0" },
-    { name = "obiguard", specifier = ">=1.0.15" },
+    { name = "obiguard", specifier = ">=1.0.16" },
 ]
 
 [[package]]
