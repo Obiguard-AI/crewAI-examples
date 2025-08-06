@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import sys
 from marketing_posts.crew import MarketingPostsCrew
+from obiguard import Obiguard
 
+obiguard_client = Obiguard(provider='openai')
 
 def run():
     # Replace with your inputs, it will automatically interpolate any tasks and agents information
@@ -14,7 +16,7 @@ Customer Domain: AI and Automation Solutions
 Project Overview: Creating a comprehensive marketing campaign to boost awareness and adoption of CrewAI's services among enterprise clients.
 """
     }
-    MarketingPostsCrew().crew().kickoff(inputs=inputs)
+    MarketingPostsCrew(obiguard_client).crew().kickoff(inputs=inputs)
 
 
 def train():
@@ -31,7 +33,7 @@ Project Overview: Creating a comprehensive marketing campaign to boost awareness
 """
     }
     try:
-        MarketingPostsCrew().crew().train(n_iterations=int(sys.argv[1]), inputs=inputs)
+        MarketingPostsCrew(obiguard_client).crew().train(n_iterations=int(sys.argv[1]), inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
